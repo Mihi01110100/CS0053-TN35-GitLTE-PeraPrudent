@@ -1,0 +1,6 @@
+# Append to the group's existing .gitignore if desired.
+*.o
+*.exe
+peraprudent-data.txt
+peraprudent-data.txt.tmp
+peraprudent-data.txt.bak
