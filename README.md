@@ -1,2 +1,2 @@
-# CS0053-TN35-GitLTE-PeraPrudent
-Console-based C++ budgeting application for students with irregular income
+# CS0053-TN35-GitLTE-FLOAT.cpp
+A C++ Console System for Irregular Cashflow & Daily Runway Management
