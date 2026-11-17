@@ -1,10 +1,11 @@
-#ifndef PERAPRUDENT_CALCULATIONS_H
-#define PERAPRUDENT_CALCULATIONS_H
+#ifndef FLOATAPP_CALCULATIONS_H
+#define FLOATAPP_CALCULATIONS_H
 
 #include "Records.h"
 
-namespace peraprudent {
+namespace floatapp {
 
+// Throws std::overflow_error when a total or balance cannot be represented.
 long long totalIncomeCentavos(const AppData& data);
 long long totalExpensesCentavos(const AppData& data);
 long long unpaidBillsCentavos(const AppData& data);
