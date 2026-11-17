@@ -8,7 +8,7 @@
 #include <system_error>
 #include <utility>
 using namespace std;
-namespace peraprudent {
+namespace floatapp {
 namespace {
 // symlink_status also detects dangling links, which must not count as absent.
 bool pathEntryExists(const filesystem::path& path, bool& exists, string& error) {
@@ -69,7 +69,7 @@ LoadStatus loadData(const string& path, AppData& data, string& error) {
     ifstream file(path);
     if (!file) { error="Cannot open data file for reading."; return LoadStatus::Error; }
     string line;
-    if (!getline(file,line) || line!="PERAPRUDENT 1") { error="Missing or unsupported data header."; return LoadStatus::Error; }
+    if (!getline(file,line) || (line!="FLOAT 1" && line!="PERAPRUDENT 1")) { error="Missing or unsupported data header."; return LoadStatus::Error; }
     AppData parsed;
     bool savingsSeen=false, finished=false;
     size_t lineNumber=1;
@@ -137,7 +137,7 @@ bool saveData(const string& path, const AppData& data, string& error) {
     }
     ofstream file(temporary,ios::trunc);
     if (!file) { error="Cannot open temporary data file for writing."; return false; }
-    file<<"PERAPRUDENT 1\n";
+    file<<"FLOAT 1\n";
     for (const auto& r:data.receivedIncomes) file<<"INCOME "<<r.id<<' '<<quoted(r.source)<<' '<<quoted(r.date)<<' '<<quoted(r.description)<<' '<<r.amountCentavos<<'\n';
     for (const auto& r:data.expectedPayments) file<<"EXPECTED "<<r.id<<' '<<quoted(r.source)<<' '<<quoted(r.expectedDate)<<' '<<quoted(r.description)<<' '<<r.amountCentavos<<' '<<(r.received ? 1 : 0)<<'\n';
     for (const auto& r:data.expenses) file<<"EXPENSE "<<r.id<<' '<<quoted(r.category)<<' '<<quoted(r.date)<<' '<<quoted(r.description)<<' '<<r.amountCentavos<<'\n';

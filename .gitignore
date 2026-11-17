@@ -67,8 +67,10 @@ vcpkg_installed/
 Testing/
 .cache/
 
-# PeraPrudent generated files
+# FLOAT generated files
 *.o
 *.exe
-peraprudent-tests-*/
+float-tests-*/
 peraprudent-data.txt*
+
+float-data.txt*

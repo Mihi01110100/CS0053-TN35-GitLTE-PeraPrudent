@@ -1,10 +1,10 @@
-#ifndef PERAPRUDENT_RECORDS_H
-#define PERAPRUDENT_RECORDS_H
+#ifndef FLOATAPP_RECORDS_H
+#define FLOATAPP_RECORDS_H
 
 #include <string>
 #include <vector>
 
-namespace peraprudent {
+namespace floatapp {
 
 struct Income {
     int id = 0;

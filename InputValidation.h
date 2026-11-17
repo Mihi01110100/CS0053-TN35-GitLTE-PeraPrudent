@@ -1,10 +1,10 @@
-#ifndef PERAPRUDENT_INPUT_VALIDATION_H
-#define PERAPRUDENT_INPUT_VALIDATION_H
+#ifndef FLOATAPP_INPUT_VALIDATION_H
+#define FLOATAPP_INPUT_VALIDATION_H
 #include "Records.h"
 #include <cstddef>
 #include <iosfwd>
 #include <string>
-namespace peraprudent {
+namespace floatapp {
 bool parseMoney(const std::string& text, long long& out);
 bool parseInteger(const std::string& text, int& out, int minimum, int maximum);
 bool isValidDate(const std::string& text);
