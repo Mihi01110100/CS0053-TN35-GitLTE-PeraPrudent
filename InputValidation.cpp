@@ -6,7 +6,7 @@
 #include <ostream>
 #include <set>
 using namespace std;
-namespace peraprudent {
+namespace floatapp {
 namespace {
 bool digits(const string& s, unsigned long long limit, unsigned long long& result) {
     if (s.empty()) return false;

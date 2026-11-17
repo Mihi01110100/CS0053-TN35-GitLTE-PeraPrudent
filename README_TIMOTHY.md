@@ -1,8 +1,8 @@
 # Timothy: records, validation, and local file storage
 
-C++17 module for integration into PeraPrudent. There is no application entry point or demo. Teammates own menus, balances, marking payments received/paid, and savings allocation. Include these headers instead of redefining the shared records. Do not overwrite the group's README or existing .gitignore.
+C++17 storage/validation module for FLOAT.cpp. The module has no entry point; the group application entry point is main.cpp. Teammates own menus, balances, marking payments received/paid, and savings allocation. Include these headers instead of redefining the shared records. Do not overwrite the group's README or existing .gitignore.
 
-Files: `Records.h` defines `peraprudent::AppData` and its four record types; `InputValidation.h/.cpp` validates input and records; `FileStorage.h/.cpp` persists all records in one local file. Headers use explicit `std::`; implementation files use `using namespace std;`.
+Files: `Records.h` defines `floatapp::AppData` and its four record types; `InputValidation.h/.cpp` validates input and records; `FileStorage.h/.cpp` persists all records in one local file. Headers use explicit `std::`; implementation files use `using namespace std;`.
 
 ## Build and test
 
@@ -11,7 +11,7 @@ From this module directory, Windows PowerShell with a C++17 g++ installation:
 ```powershell
 g++ -std=c++17 -Wall -Wextra -Wpedantic -c InputValidation.cpp FileStorage.cpp
 # Link the module with the group's actual application entry point:
-g++ -std=c++17 -Wall -Wextra -Wpedantic main.cpp InputValidation.cpp FileStorage.cpp -o PeraPrudent.exe
+g++ -std=c++17 -Wall -Wextra -Wpedantic main.cpp InputValidation.cpp FileStorage.cpp -o FLOAT.exe
 # Compile regression tests separately; never include tests in the application build:
 g++ -std=c++17 -Wall -Wextra -Wpedantic -I. tests/module_tests.cpp InputValidation.cpp FileStorage.cpp -o module_tests.exe
 .\module_tests.exe .
@@ -37,11 +37,11 @@ The new recovery regression cases ran as follows. Quoted `\n` denotes a newline 
 Example statements to place inside the group's startup function (include `<iostream>` and the module headers):
 
 ```cpp
-peraprudent::AppData data;
+floatapp::AppData data;
 std::string error;
-const std::string path = "peraprudent-data.txt";
-auto status = peraprudent::loadData(path, data, error);
-if (status == peraprudent::LoadStatus::Error) {
+const std::string path = "float-data.txt"; // Existing application handles legacy filenames.
+auto status = floatapp::loadData(path, data, error);
+if (status == floatapp::LoadStatus::Error) {
     std::cerr << error << '\n';
     return; // adapt to the enclosing function; do not overwrite a failed load
 }
@@ -51,19 +51,19 @@ if (status == peraprudent::LoadStatus::Error) {
 Example addition after a successful startup, inside a function with access to `data`, `path`, and `error`:
 
 ```cpp
-peraprudent::Income income;
-if (!peraprudent::nextRecordId(data, income.id, error)) {
+floatapp::Income income;
+if (!floatapp::nextRecordId(data, income.id, error)) {
     std::cerr << error << '\n';
     return;
 }
 std::cout << "Source: ";
-if (!peraprudent::readRequiredText(std::cin, std::cout, income.source)) return;
+if (!floatapp::readRequiredText(std::cin, std::cout, income.source)) return;
 std::cout << "Date (YYYY-MM-DD): ";
-if (!peraprudent::readDate(std::cin, std::cout, income.date)) return;
+if (!floatapp::readDate(std::cin, std::cout, income.date)) return;
 std::cout << "Amount: ";
-if (!peraprudent::readMoney(std::cin, std::cout, income.amountCentavos)) return;
+if (!floatapp::readMoney(std::cin, std::cout, income.amountCentavos)) return;
 data.receivedIncomes.push_back(income);
-if (!peraprudent::saveData(path, data, error)) {
+if (!floatapp::saveData(path, data, error)) {
     std::cerr << error << '\n'; // in-memory addition remains; surface failure to user
 }
 ```
@@ -72,7 +72,7 @@ All input helpers use `getline` only. Use `getline` in the surrounding menu too,
 
 ## Public API
 
-All functions and types are in `peraprudent`. String inputs are `const std::string&`; errors and string outputs are `std::string&`.
+All functions and types are in `floatapp`. String inputs are `const std::string&`; errors and string outputs are `std::string&`.
 
 | Function | Result and behavior |
 | --- | --- |
@@ -104,7 +104,7 @@ Use checked integer arithmetic when adding incomes, expenses, bill totals, savin
 Version 1 example (amounts below are integer centavos, not decimal pesos):
 
 ```text
-PERAPRUDENT 1
+FLOAT 1
 INCOME 1 "Allowance" "2026-11-16" "Weekly allowance" 100000
 EXPECTED 2 "Client" "2026-12-01" "" 50000 0
 EXPENSE 3 "Food" "2026-11-16" "Lunch" 15000
@@ -125,3 +125,6 @@ Append the patterns in `.gitignore_timothy.txt` to the group's existing `.gitign
 
 ## Windows verification update - 2026-11-17
 The revised module compiled with G++ on Windows. The regression run reported: 65 checks passed.
+
+## FLOAT branding compatibility
+The namespace is floatapp. New saved files use the FLOAT 1 header; the loader also accepts the legacy PERAPRUDENT 1 header. The application uses float-data.txt for new installations and retains peraprudent-data.txt if legacy data or recovery entries exist. Legacy names in this section describe compatibility, not current project branding.

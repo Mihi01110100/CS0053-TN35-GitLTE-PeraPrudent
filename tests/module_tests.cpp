@@ -9,7 +9,7 @@
 #include <sstream>
 #include <stdexcept>
 using namespace std;
-using namespace peraprudent;
+using namespace floatapp;
 namespace {
 int checks=0;
 void check(bool condition, const string& name) {
@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     filesystem::path directory;
     try {
         const auto base=argc>1 ? filesystem::path(argv[1]) : filesystem::temp_directory_path();
-        directory=base/("peraprudent-tests-"+to_string(chrono::steady_clock::now().time_since_epoch().count()));
+        directory=base/("float-tests-"+to_string(chrono::steady_clock::now().time_since_epoch().count()));
         filesystem::create_directories(directory);
         long long money=17;
         check(parseMoney("12.3",money) && money==1230,"one decimal");
